@@ -17,6 +17,10 @@ class PersonParser {
     return fs.readFileSync(this._file, 'utf8')
   }
 
+  writeData(path, newFile) {
+    fs.writeFileSync(path, newFile)
+  }
+  
   addPerson(input) {
     this._people.push(input)
   }
@@ -45,7 +49,7 @@ class PersonParser {
         result += arr[i].join(',') + '\n'
       }
     }
-    fs.writeFileSync('people.csv', result)
+    this.writeData('people.csv', result)
   }
 }
 
