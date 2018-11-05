@@ -32,7 +32,7 @@ class PersonParser {
     this._people.push(input)
   }
 
-  readFile (callback) {
+  gettingData (callback) {
     let fs = require('fs')
     fs.readFile(this._file, 'utf8', (err,dataPerson) => {
       if (err) throw err
@@ -43,7 +43,7 @@ class PersonParser {
           let employee = new Person (data[0],data[1],data[2],data[3],data[4],data[5]) 
           this.people = employee  
         }
-        callback(dataPerson)
+        callback()
       }
     })
   }
@@ -68,7 +68,7 @@ class PersonParser {
 
 let parser = new PersonParser('people.csv')
 
-parser.readFile(()=> {
+parser.gettingData(()=> {
   parser.addPerson('John','Meyer','johnmeyer@email.com','22800-7892-009',new Date())
   parser.save()
   console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
