@@ -10,7 +10,10 @@ class Person {
     this.last_name = last_name
     this.email = email
     this.phone = phone
-    this.created_at = created_at
+    this.created_at = this.convertDate(created_at)
+  }
+  convertDate(date) {
+    return Date(date)
   }
 }
 
@@ -20,19 +23,19 @@ class PersonParser {
     this._file = file
     this._isiFile = []
     this._people = []
+    this.readFile()
   }
   
   // hanya me return hasil dari people 
   get people() {
-    return this.readFile()
+    return this._people
   }
   
   // convert kedalam bentuk array 
   readFile() {
-    this._isiFile = fs.readFileSync(this._file,'utf8').split("\r\n")
+    this._isiFile = fs.readFileSync(this._file,'utf8').split("\n")
     this.convertObject()
     // console.log(this._isiFile)
-    return this
   }
   
   // convert dari array ke object 
@@ -41,26 +44,15 @@ class PersonParser {
     let newArr = []
     for (let i = 0; i < this._isiFile.length; i++) {
      newArr.push(this._isiFile[i].split(','));
-
-
     }
-
     for (let i = 1; i < newArr.length; i++) {
-      let obj = new Person()
-      obj.id = newArr[i][0]  // ini dikondisikan agar date diubah jadi format streing
-      obj.first_name = newArr[i][1] 
-      obj.last_name = newArr[i][2] 
-      obj.email = newArr[i][3] 
-      obj.phone = newArr[i][4]
-      obj.created_at = Date(newArr[i][5]) 
+      let obj = new Person(newArr[i][0], newArr[i][1], newArr[i][2], newArr[i][3], newArr[i][4], newArr[i][5])
       this._people.push(obj)
     }
     // console.log(this._people)
-    return this
   }
 
   addPerson(obj) {
-    this.readFile()
     this._people.push(obj)
     // console.log(this._people)
     return this
@@ -97,5 +89,5 @@ class PersonParser {
 
 let parser = new PersonParser('./people.csv')
 // console.log(parser.people)
-console.log(parser.addPerson(new Person('201','Abed','Lubis','lubisabednego@gmail','081263264401','2018-10-26T02:13:03-07:00')).save())
+console.log(parser.addPerson(new Person('201','Abed','Lubis','lubisabednego@gmail','081263264401','2018-10-26T02:13:03-07:00')).save().people)
 // console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
