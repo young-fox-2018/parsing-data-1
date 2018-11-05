@@ -1,6 +1,6 @@
 "use strict"
 
-class Person{
+class Person {
   // Look at the above CSV file
   // What attributes should a Person object have?
   constructor(id, first_name, last_name, email, phone, created_at) {
@@ -9,7 +9,7 @@ class Person{
     this.last_name = last_name
     this.email = email
     this.phone = phone
-    this.created_at = created_at
+    this.created_at = new Date(created_at)
   }
 }
 
@@ -18,7 +18,6 @@ class PersonParser {
   constructor(file) {
     this._file = file.split('\n').slice(1)
     this._people = []
-    this._header = file.split('\n')[0].split(',')
     this._generateJSON = this.generatePeople()
   }
 
@@ -37,7 +36,7 @@ class PersonParser {
     let result = []
     for (let i = 0; i < this._file.length; i++) {
       let arr = this._file[i].split(',')
-      
+
       for (let j = 0; j < arr.length; j++) {
         this._people[i] = new Person(
           arr[0],
@@ -52,41 +51,38 @@ class PersonParser {
   }
 
   save() {
-    let result = 'id,first_name,last_name,email,phone,created_at'+'\n'
-    
+    let result = 'id,first_name,last_name,email,phone,created_at' + '\n'
+
     for (let i = 0; i < this._people.length; i++) {
-      result += 
-      this._people[i].id + ','+
-      this._people[i].first_name +','+
-      this._people[i].last_name +','+
-      this._people[i].email +','+
-      this._people[i].phone +','+
-      this._people[i].created_at +','+'\n'
-      
+      result +=
+        this._people[i].id + ',' +
+        this._people[i].first_name + ',' +
+        this._people[i].last_name + ',' +
+        this._people[i].email + ',' +
+        this._people[i].phone + ',' +
+        this._people[i].created_at + ',' + '\n'
+
     }
     fs.writeFileSync(
-      'people.csv',result
+      'people.csv', result
     )
     console.log(this._people[0]);
-    
+
   }
 }
 
 const fs = require('fs')
-let dataCSV = fs.readFileSync('people.csv','utf8')
-
+let dataCSV = fs.readFileSync('people.csv', 'utf8')
 let parser = new PersonParser(dataCSV)
 
-console.log(
-  parser.addPerson(
-    new Person(
-      9,"Taqi","Aziz", "taqi@taqi.com","087782387703",new Date()
-    )
+parser.addPerson(
+  new Person(
+    9, "Taqi", "Aziz", "taqi@taqi.com", "087782387703", new Date()
   )
-);
-
-
+)
 parser.save()
+console.log(`There are ${parser._people.length} people in the file '${parser._file}'.`)
+
 
 
 
