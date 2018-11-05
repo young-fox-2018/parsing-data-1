@@ -45,7 +45,7 @@ class PersonParser {
           arr[2],
           arr[3],
           arr[4],
-          arr[5])
+          new Date(arr[5]))
       }
     }
     return this._people
@@ -80,7 +80,7 @@ let parser = new PersonParser(dataCSV)
 console.log(
   parser.addPerson(
     new Person(
-      9,"Taqi","Aziz", "taqi@taqi.com","087782387703","03-11-1996"
+      9,"Taqi","Aziz", "taqi@taqi.com","087782387703",new Date()
     )
   )
 );
