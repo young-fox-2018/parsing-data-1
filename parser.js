@@ -33,6 +33,10 @@ class PersonParser {
     return result
   }
 
+  get file() {
+    return this._file
+  }
+
   get people() {
 
     return this._people
@@ -62,4 +66,4 @@ let parser = new PersonParser('people.csv')
 parser.addPerson(new Person(201, "Patria", "Gani", "patria.gani@gmail.com", "0852-5165-6109", "2018-05-10T03:53:40-07:00"))
 parser.save()
 console.log(parser.people);
-// console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
+console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
